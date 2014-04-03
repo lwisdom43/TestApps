@@ -11,6 +11,8 @@ namespace Test_NewRepository_TestGithub_HelloGithub
         static void Main(string[] args)
         {
             Console.WriteLine("Hello Github!");
+            Console.WriteLine();
+            Console.WriteLine("Testing Update...");
         }
     }
 }
