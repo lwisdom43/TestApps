@@ -1,0 +1,99 @@
+﻿@using Infragistics.Web.Mvc;
+@{
+    ViewBag.Title = "About";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>@ViewBag.Message</h2>
+</hgroup>
+
+<article>
+    <p>
+        Use this area to provide additional information.
+    </p>
+
+    <p>
+        Use this area to provide additional information.
+    </p>
+
+    <p>
+        Use this area to provide additional information.
+    </p>
+</article>
+
+
+
+<aside>
+    <h3>Aside Title</h3>
+    <p>
+        Use this area to provide additional information.
+    </p>
+    <ul>
+        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+        <li>@Html.ActionLink("About", "About", "Home")</li>
+        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+    </ul>
+</aside>
+
+<input id="UploadFile" type="button" value="Upload New File"
+        onclick="click" />
+
+<div id="popupDialog" title="Upload New File">
+    @using (Html.BeginForm("FileUploads", "Accounts", new { AccountID = 2031 }, FormMethod.Post, new { enctype = "multipart/form-data", id = "UploadFileForm" }))
+    {
+        <span>Upload a new file :</span>
+        <input id="fileName" type="file" style="width: 350px;" name="file" />
+        <div>
+            <br />
+            <label>
+                File Type:</label>
+            @(Html.Infragistics().Combo()
+                            .ID("DefinitionType")
+                            .TextKey("Name")
+                            .Width("350")
+                            .ValueKey("UserImportDefinitionID")
+                            .AllowCustomValue(false)
+                            .EnableClearButton(false)
+                            .Mode(Infragistics.Web.Mvc.ComboMode.DropDown)
+                            .MultiSelection(Infragistics.Web.Mvc.ComboMultiSelection.Off)
+                            .DataSource("GetUserImportDefinitions")
+                            .ItemTemplate("<span>(${ImportType})&nbsp;</span><span>${Name} - ${description}</span>")
+                            .DataBind()
+                            .Render())
+        </div>
+        
+    }
+</div>
+<script type="text/javascript">
+        
+    $('#UploadFile').click(function () {
+
+            $('#popupDialog').dialog('open');
+
+        
+    }); 
+
+    $('#popupDialog').dialog({
+        width: 400,
+        height:250,
+        modal: true,
+        autoOpen: false,
+        buttons: {
+            'Cancel': function () {
+                $(this).dialog('close');
+            },
+            'Accept': function () {
+                var fileName = $("#fileName").val();
+                if (fileName == null) {
+                    Errors = 1;
+                    alert('You need to select a file.');
+                }
+                if (Errors == 0) {
+                    $(this).dialog('close');
+                    $("#UploadFileForm").submit();
+                }
+            }
+        }
+    });
+</script>
